@@ -1,0 +1,33 @@
+[project]
+name = "p10_lucca_moench_2015"
+description = "Final Project for FINM 32800: Replication and Extension of Lucca, David O., and Emanuel Moench. "The Pre-FOMC Announcement Drift." The Journal of Finance 70, no. 1 (2015): 329-371."
+maintainer = "C. Denver Shepherd"
+contributors = ["C. Denver Shepherd"]
+os_compatibility = ["Windows", "Linux", "macOS"]
+build = """
+module load anaconda3/3.11.4 TeXLive/2023
+doit
+"""
+
+[notebooks]
+
+
+[notebooks.01_example_notebook_interactive]
+name = "Example Notebook Interactive"
+description = "Example notebook for demonstrating how to construct a Chartbook notebook."
+path = "_output/01_example_notebook_interactive.ipynb"
+
+
+[notebooks.02_example_with_dependencies]
+name = "Example Notebook with Dependencies"
+description = "Example notebook demonstrating dependencies on data pulls."
+path = "_output/02_example_with_dependencies.ipynb"
+
+
+
+
+[dataframes]
+
+
+[charts]
+
