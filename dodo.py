@@ -120,6 +120,51 @@ def task_pull():
         "file_dep": ["./src/settings.py", "./src/pull_CRSP_Compustat.py"],
         "clean": [],
     }
+    yield {
+        "name": "taq_spy_minute",
+        "doc": "Pull SPY one-minute bars from WRDS Daily TAQ",
+        "actions": [
+            "python ./src/settings.py",
+            "python ./src/pull_taq_spy.py",
+        ],
+        "targets": [DATA_DIR / "taq_spy_minute"],
+        "file_dep": ["./src/settings.py", "./src/pull_taq_spy.py"],
+        "clean": [],
+    }
+    yield {
+        "name": "databento_es_minute",
+        "doc": "Pull E-mini S&P 500 one-minute bars from Databento",
+        "actions": [
+            "python ./src/settings.py",
+            "python ./src/pull_databento_es.py",
+        ],
+        "targets": [DATA_DIR / "databento_es_minute"],
+        "file_dep": ["./src/settings.py", "./src/pull_databento_es.py"],
+        "clean": [],
+    }
+
+def task_clean_intraday_prices():
+    """Clean minute bars into daily open, 2pm and close prices"""
+    return {
+        "actions": ["python ./src/clean_intraday_prices.py"],
+        "file_dep": ["./src/settings.py", "./src/clean_intraday_prices.py"],
+        "targets": [DATA_DIR / "clean_intraday_prices.parquet"],
+        "task_dep": ["pull:taq_spy_minute", "pull:databento_es_minute"],
+        "clean": [],
+    }
+
+
+def task_calc_intraday_window_returns():
+    """Compute intraday window returns and relative volume"""
+    return {
+        "actions": ["python ./src/calc_intraday_window_returns.py"],
+        "file_dep": [
+            "./src/calc_intraday_window_returns.py",
+            DATA_DIR / "clean_intraday_prices.parquet",
+        ],
+        "targets": [DATA_DIR / "intraday_window_returns.parquet"],
+        "clean": [],
+    }
 
 
 def task_summary_stats():
