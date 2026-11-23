@@ -48,4 +48,6 @@ chartbook>=0.1.0
 wrds>=3.2.0
 jaydebeapi
 
+# Databento data access (E-mini futures)
+databento
 
